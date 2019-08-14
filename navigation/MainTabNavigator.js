@@ -3,51 +3,18 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import StarredScreen from '../screens/StarredScreen';
-import SharedScreen from '../screens/SharedScreen';
-import FilesScreen from '../screens/FilesScreen';
+
+import { navListData } from '../constants/NavListData';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
 
-const navData = [
-  {
-    component : HomeScreen,
-    name : 'Home',
-    iosIconName : 'ios-home',
-    otherIconName : 'ios-home',
-    title : null,
-  },
-  {
-    component : StarredScreen,
-    name : 'Starred',
-    iosIconName : 'ios-star-outline',
-    otherIconName : 'ios-star-outline',
-    title : 'Starred Documents',
-  },
-  {
-    component : SharedScreen,
-    name :'Shared',
-    iosIconName : 'ios-people',
-    otherIconName : 'ios-people',
-    title : 'Shared Documents',
-  },
-  {
-    component : FilesScreen,
-    name :'Files',
-    iosIconName : 'ios-folder',
-    otherIconName : 'ios-folder',
-    title: 'Files',
-  }
-];
-
-const mapNavigationTabs = (navData) => {
+const mapNavigationTabs = (navListData) => {
   let tabs = {};
-  navData.map(navOptions=> {
-    const { name,component,title } = navOptions;
+  navListData.map(navOptions=> {
+    const { name,component } = navOptions;
     const stack = createStackNavigator({name : component },config);
     stack.navigationOptions = {
       tabBarLabel : name,
@@ -67,4 +34,4 @@ const mapNavigationTabs = (navData) => {
   })
   return createBottomTabNavigator(tabs);
 }
-export default mapNavigationTabs(navData);
+export default mapNavigationTabs(navListData);

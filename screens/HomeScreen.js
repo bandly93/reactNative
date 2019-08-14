@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
 import SearchBarComp from '../components/SearchBarComp.js';
 import DocumentList from '../components/DocumentList.js';
-
+import { connect } from 'react-redux';
+import { updateModalProps } from '../redux/modalModule';
 import {
   StyleSheet, 
 	View,
@@ -35,7 +36,17 @@ class HomeScreen extends Component{
 	}
 }
 
-export default HomeScreen;
+const mapDispatchToProps = { 
+	updateModalProps,
+}
+
+const mapStateToProps = (state) =>{
+	return {
+		modal:state.modal,
+	}
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(HomeScreen);
 
 HomeScreen.navigationOptions = {
   header: null,
