@@ -1,30 +1,16 @@
-import React, {Component} from 'react';
-import { View,TextInput,StyleSheet,Icon } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import React, { useState } from 'react';
+import { View,TextInput,StyleSheet } from 'react-native';
 
-
-class SearchBarComp extends Component{
-    constructor(){
-        super();
-        this.state = {
-            textState : null,
-        }
-    }
-    _updateText = (e) => {
-        const { value } = e.target;
-        this.setState({textState:value});
-    }
-
-    render(){
-        return <View style = {styles.searchBar}>
-            <TextInput 
-                style = {styles.inputText}
-                value = {this.state.textState} 
-                placeholder = 'Search Drive'
-                onChange = {this._updateText}
-            />          
-        </View>
-    }
+const SearchBarComp = () => {
+    const [textState,updateText] = useState('');
+    return <View style = {styles.searchBar}>
+        <TextInput 
+            style = {styles.inputText}
+            value = {textState} 
+            placeholder = 'Search Drive'
+            onChange = {(e)=>updateText(e.target.value)}
+        />          
+    </View>
 }
 
 export default SearchBarComp;
@@ -44,6 +30,4 @@ const styles = StyleSheet.create({
         height:50,
         paddingLeft : 20,
     }
-})
-
-
+});

@@ -1,21 +1,20 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { View,StyleSheet,FlatList,Text,Image } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import ModalComp from './ModalComp';
-import { connect } from 'react-redux';
-import { updateView } from '../redux/viewModule';
-import { toggleModalOff,toggleModalOn, updateModalProps} from '../redux/modalModule';
+import { useDispatch } from 'react-redux';
+import { toggleModalOn, updateModalProps} from '../redux/modalModule';
+import { images } from '../constants/ImageObj';
+const { dots,placeholderImg } = images;
 
-const placeholderImg = 'https://www.associationservicesgroup.net/wp-content/uploads/2017/07/PDF-Placeholder-e1500896019213.png';
-const dots = 'https://cdn0.iconfinder.com/data/icons/smoothies-vector-icons-volume-2/48/143-512.png';
-
-class DocumentList extends Component{
+const DocumentList = ({students}) => {
+    const dispatch = useDispatch();
 
     _handlePress = (student) => {
-        const { updateModalProps,toggleModalOn} = this.props;
-        updateModalProps(student);
-        toggleModalOn();
+        dispatch(updateModalProps(student));
+        dispatch(toggleModalOn());
     }
+
     _renderItem = ({item}) => <View style = {styles.flatListItem}>
 		<View style = {styles.docTitle}>
             <View style = {styles.docTitleLeft}>
@@ -23,7 +22,7 @@ class DocumentList extends Component{
 			    <Text style ={{paddingTop:5}}> {item.firstName} {item.lastName} </Text>
             </View>
             <View style = {styles.docTitleRight}>
-                <TouchableOpacity value = {item.name} onPress = {()=>this._handlePress(item)}>
+                <TouchableOpacity value = {item.name} onPress = {()=>_handlePress(item)}>
                     <Image  
                         style = {styles.dots} 
                         source = {{uri:dots}}
@@ -41,39 +40,23 @@ class DocumentList extends Component{
 
     _keyExtractor = (item,index) => item.id;
 
-    render(){
-        return (
-           <View style = {styles.container}>
-               <ScrollView>
-                    <View>
-                        <FlatList
-						    data = {this.props.students} 
-						    keyExtractor = {this._keyExtractor}
-						    renderItem ={this._renderItem} 
-                        />
-                        <ModalComp />
-                    </View>
-				</ScrollView>
-           </View>
-        )
-    }
+    return (
+        <View style = {styles.container}>
+            <ScrollView>
+                <View>
+                    <FlatList
+						data = {students} 
+						keyExtractor = {_keyExtractor}
+						renderItem ={_renderItem} 
+                    />
+                    <ModalComp />
+                </View>
+			</ScrollView>
+        </View>
+    )
 }
 
-const mapDispatchToProps = {
-    updateView,
-    toggleModalOff,
-    toggleModalOn,
-    updateModalProps,
-}
-
-const mapStateToProps = (state) =>{
-    return {
-        view : state.view,
-        modal : state.modal,
-    }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(DocumentList);
+export default DocumentList;
 
 const styles = StyleSheet.create({
     container: {

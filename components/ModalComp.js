@@ -1,18 +1,19 @@
-import React,{ Component } from 'react';
+import React from 'react';
 import { Modal, View,Text , StyleSheet,Image,ScrollView,TouchableOpacity} from 'react-native';
 import { toggleModalOff, updateModalProps} from '../redux/modalModule';
-import { connect } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { modalListData } from '../constants/ModalListData';
 import { FlatList } from 'react-native-gesture-handler';
-import TabBarIcon from '../components/TabBarIcon';
 import { Ionicons } from '@expo/vector-icons';
-//trying hooks for the first time
-class ModalComp extends Component{
+
+const ModalComp = () => {
+
+    const dispatch = useDispatch();
+    const { modalActive,modalData } = useSelector(state => state.modal);
 
     _onPress = () => {
-        const { updateModalProps,toggleModalOff} = this.props;
-        updateModalProps({});
-        toggleModalOff();
+        dispatch(updateModalProps({}));
+        dispatch(toggleModalOff());
     }
 
     _renderItem = ({item}) => <View style = {styles.flatListItem}>
@@ -22,44 +23,30 @@ class ModalComp extends Component{
 
     _keyExtractor = (item,index) => item.name;
 
-    render(){
-        const { modalActive,modalData } = this.props.modal;
-        return <ScrollView>
-            <TouchableOpacity>
-                <Modal 
-                    style = {styles.modal}
-                    visible = {modalActive} 
-                    transparent = {true}
-                    animationType = 'slide'>
-                    <View style = {styles.modal}>
-                        <View style = {styles.titleContainer}>
-                            <Text>{modalData.firstName} {modalData.lastName}</Text>
-                            <Ionicons style = {styles.icon} name = 'ios-close' focused = "true" size = {24} onPress = {this._onPress}/>
-                        </View>
-                        <FlatList
-                            data = {modalListData}
-                            keyExtractor = {this._keyExtractor}
-                            renderItem = {this._renderItem}
-                        />
+    return <ScrollView>
+        <TouchableOpacity>
+            <Modal 
+                style = {styles.modal}
+                visible = {modalActive} 
+                transparent = {true}
+                animationType = 'slide'>
+                <View style = {styles.modal}>
+                    <View style = {styles.titleContainer}>
+                        <Text>{modalData.firstName} {modalData.lastName}</Text>
+                        <Ionicons style = {styles.icon} name = 'ios-close' focused = "true" size = {24} onPress = {_onPress}/>
                     </View>
-                </Modal>
-            </TouchableOpacity>
-        </ScrollView>
-    }
+                    <FlatList
+                        data = {modalListData}
+                        keyExtractor = {_keyExtractor}
+                        renderItem = {_renderItem}
+                    />
+                </View>
+            </Modal>
+        </TouchableOpacity>
+    </ScrollView>
 }
 
-const mapDispatchToProps = {
-    toggleModalOff,
-    updateModalProps,
-}
-
-const mapStateToProps = (state) => {
-    return {
-        modal : state.modal,
-    }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(ModalComp);
+export default ModalComp;
 
 const styles = StyleSheet.create({
    modal : {
