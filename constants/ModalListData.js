@@ -1,57 +1,57 @@
 export const modalListData = [
     {
         name : 'Share',
-        icon : '',
+        icon : 'ios-share-alt',
         active : true,
     },
     {   
         name : 'Add to starred',
-        icon : '',
+        icon : 'ios-star-outline',
         active : true,
     },
     {
         name : 'Make available offline',
-        icon : '',
+        icon : 'ios-code-download',
         active : false,
     },
     {
         name : 'Link sharing off',
-        icon : '',
+        icon : 'ios-link',
         active : false,
     },
     {
         name : 'Copy link',
-        icon : '',
+        icon : 'ios-copy',
         active : true,
     },
     {
         name : 'Open in',
-        icon : '',
+        icon : 'ios-open',
         active : false,
     },
     {
         name : 'Rename',
-        icon : '',
+        icon : 'ios-brush',
         active : true,
     },
     {
         name : 'Locate in Drive',
-        icon : '',
+        icon : 'ios-search',
         active : false,
     },
     {
         name : 'Make a copy',
-        icon : '',
+        icon : 'ios-copy',
         active : false,
     },
     {
         name : 'Details & activity',
-        icon : '',
+        icon : 'ios-information-circle-outline',
         active : false,
     },
     {
         name : 'Report Abuse',
-        icon : '',
+        icon : 'ios-information-circle',
         active : false,
     }
 ]
